@@ -1,0 +1,100 @@
+{{page-title 'EmberLearning'}}
+<ul class='nav nav-tabs' role='tablist'>
+  <li class='nav-item'>
+    <LinkTo @route='index' class='nav-link active'>Home</LinkTo>
+    {{! <a
+      class='nav-link active'
+      data-bs-toggle='tab'
+      href='#home'
+      aria-selected='true'
+    >Home</a> }}
+  </li>
+  <li class='nav-item'>
+    <a
+      class='nav-link'
+      data-bs-toggle='tab'
+      href='#profile'
+      aria-selected='false'
+      tabindex='-1'
+    >Profile</a>
+  </li>
+
+</ul>
+
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.lineItems as |lineItem|}}
+      <tr class='{{unless lineItem.isExpense "table-active"}}'>
+        <td>{{lineItem.description}}</td>
+        <td>{{lineItem.date}}</td>
+        <td>{{lineItem.amount}}</td>
+        <td>{{percentage lineItem.amount this.totalAmount stringify=true}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+        <label class='form-label' for='description'>Description</label>
+        <input
+          type='text'
+          id='description'
+          value='{{this.description}}'
+          class='form-control'
+          {{on 'input' (fn this.setField 'description')}}
+        />
+      </td>
+      <td>
+        <label class='form-label' for='line-item-input'>Date</label>
+        <input
+          type='date'
+          id='date-input'
+          value='{{this.date}}'
+          class='form-control'
+          {{on 'input' (fn this.setField 'date')}}
+        />
+      </td>
+
+      <td>
+        <label class='form-label' for='amount-input'>Amount</label>
+        <input
+          type='number'
+          id='amount-input'
+          value='{{this.amount}}'
+          class='form-control'
+          {{on 'input' (fn this.setField 'amount')}}
+        />
+      </td>
+      <td>
+
+        <input
+          type='checkbox'
+          id='expense-input'
+          checked='{{this.isExpense}}'
+          class='form-check-input'
+          {{on 'change' this.setIsExpense}}
+        />
+        <label class='form-check-label' for='expense-input'>Is Expense</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button
+          {{on 'click' this.addNewLineItem}}
+          class='btn btn-primary'
+          type='button'
+        >Add Line Item</button>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+{{outlet}}
