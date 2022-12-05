@@ -1,4 +1,3 @@
-import FirebaseAdapter from 'emberfire/adapters/firebase';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 
-export default FirebaseAdapter.extend({
-});
+export default class ApplicationAdapter extends JSONAPIAdapter {}

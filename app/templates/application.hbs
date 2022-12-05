@@ -31,7 +31,7 @@
     </tr>
   </thead>
   <tbody>
-    {{#each this.lineItems as |lineItem|}}
+    {{#each this.model as |lineItem|}}
       <tr class='{{unless lineItem.isExpense "table-active"}}'>
         <td>{{lineItem.description}}</td>
         <td>{{lineItem.date}}</td>

@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
-// import Component from '@glimmer/component';
 import Ember from 'ember';
 import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 const LineItem = Ember.Object.extend({
   description: 'Description',
@@ -11,6 +11,8 @@ const LineItem = Ember.Object.extend({
 });
 
 class ApplicationController extends Controller {
+  @service store;
+
   setField = (propertyName, e) => {
     this.set(propertyName, e.target.value);
   };
@@ -21,38 +23,9 @@ class ApplicationController extends Controller {
   date = new Date();
   amount = 0.0;
   isExpense = false;
-  welcomeText = 'Welcome guys';
-  lineItems = [
-    LineItem.create({
-      description: 'breakfast',
-      date: new Date('11-02-2022'),
-      amount: 10,
-      isExpense: true,
-    }),
-    LineItem.create({
-      description: 'lunch',
-      date: new Date('11-03-2022'),
-      amount: 15,
-      isExpense: true,
-    }),
-    LineItem.create({
-      description: 'dinner',
-      date: new Date('11-04-2022'),
-      amount: 50,
-      isExpense: true,
-    }),
-    LineItem.create({
-      description: 'salary',
-      date: new Date('11-05-2022'),
-      amount: 5000,
-      isExpense: false,
-    }),
-  ];
-
-  @computed('lineItems.[]')
+  @computed('model.[]')
   get totalAmount() {
-    console;
-    return this.lineItems.reduce(
+    return this.model.reduce(
       (acc, lineItem) => (acc += Number(lineItem.amount)),
       0
     );
@@ -60,14 +33,13 @@ class ApplicationController extends Controller {
 
   @action
   addNewLineItem() {
-    const lineItem = LineItem.create({
+    const lineItem = this.store.createRecord('line-item', {
       description: this.description,
-      date: this.date,
+      date: new Date(this.date),
       amount: this.amount,
       isExpense: this.isExpense,
     });
-
-    this.lineItems.pushObject(lineItem);
+    lineItem.save();
     this.setProperties({
       description: '',
       date: new Date(),

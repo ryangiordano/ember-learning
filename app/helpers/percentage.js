@@ -4,5 +4,6 @@ const stringifyPercentage = (number) => `%${number}`;
 
 export default helper(function percentage([amount, total], { stringify }) {
   const percent = ((amount * 100) / Math.max(total, 1)).toFixed(2);
+  console.log(amount, total);
   return stringify ? stringifyPercentage(percent) : percent;
 });
