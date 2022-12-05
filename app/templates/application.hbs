@@ -37,6 +37,11 @@
         <td>{{lineItem.date}}</td>
         <td>{{lineItem.amount}}</td>
         <td>{{percentage lineItem.amount this.totalAmount stringify=true}}</td>
+        <td><button
+            {{on 'click' (fn this.deleteLineItem lineItem)}}
+            type='button'
+            class='btn btn-danger'
+          >Delete</button></td>
       </tr>
     {{/each}}
   </tbody>

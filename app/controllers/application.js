@@ -1,14 +1,6 @@
 import Controller from '@ember/controller';
-import Ember from 'ember';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-
-const LineItem = Ember.Object.extend({
-  description: 'Description',
-  date: new Date(),
-  amount: 0,
-  isExpense: true,
-});
 
 class ApplicationController extends Controller {
   @service store;
@@ -23,8 +15,10 @@ class ApplicationController extends Controller {
   date = new Date();
   amount = 0.0;
   isExpense = false;
+
   @computed('model.[]')
   get totalAmount() {
+    console.log(this.model);
     return this.model.reduce(
       (acc, lineItem) => (acc += Number(lineItem.amount)),
       0
@@ -46,6 +40,11 @@ class ApplicationController extends Controller {
       amount: 0,
       isExpense: true,
     });
+  }
+
+  @action
+  deleteLineItem(lineItem) {
+    lineItem.destroyRecord();
   }
 }
 

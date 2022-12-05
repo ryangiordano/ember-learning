@@ -28,5 +28,6 @@ export default function () {
   });
 
   this.post('/line-items');
+  this.del('/line-items/:id');
   this.passthrough();
 }
