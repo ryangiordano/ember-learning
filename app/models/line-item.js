@@ -1,4 +1,9 @@
 import Model, { attr } from '@ember-data/model';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  description: validator('presence', true),
+});
 
 export default class LineItemModel extends Model {
   @attr('string', { defaultValue: '' }) description;
